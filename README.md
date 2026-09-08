@@ -1,45 +1,65 @@
-Agentic Engineering Platform — Parent Control Plane
-===============================================
-.\scripts\generate-workspace.ps1
+Agentic Engineering Platform - Parent Control Plane
+====================================================
 
-What this repo is NOT
-3. Open the generated child-inclusive workspace (`generated-workspace.code-workspace`) in VS Code. The committed `parent.code-workspace` remains parent-only.
-- No secrets or credentials.
+This repository is a repo-agnostic governance control plane for engineering agents. It contains rules, review agents, reusable skills, connector templates, child-repository catalog metadata, and workspace scripts.
 
-Quick start (Windows PowerShell)
+It does not contain application source code, application dependencies, or secrets. Application code remains in child repositories under `repos/`.
 
-1. Clone this repo:
+## Quick start
 
-```powershell
-git clone <parent-repo-remote> parent-repo
-cd parent-repo
-```
-
-2. Link or clone your child repos (see `scripts/`):
+Clone the parent repository:
 
 ```powershell
-.\scripts\link-existing.ps1 -Path 'C:\path\to\child-repo' -Name child-repo
-.\scripts\generate-workspace.ps1
+git clone https://github.com/sainath97/ai-orchestrator.git ai-orchestrator
+cd ai-orchestrator
 ```
 
-3. Open the generated multi-root workspace (`parent.code-workspace`) in VS Code.
+Register child repositories in `repos.json`, then either link an existing local checkout or clone cataloged remotes:
 
-Design principles
-- Smallest safe reversible change.
-- App code always lives in child repos.
-- Secrets never committed. Use environment variables or vaults.
+```powershell
+.\scripts\link-one.ps1 -Path 'C:\path\to\child-repo' -Name child-repo
+# or: .\scripts\clone-all.ps1
+```
 
-Agent execution loop
+Generate the local child-inclusive workspace and open it:
+
+```powershell
+.\scripts\generate-workspace.ps1
+code .\generated-workspace.code-workspace
+```
+
+The committed `parent.code-workspace` is parent-only. The generated `generated-workspace.code-workspace` is ignored by Git.
+
+For POSIX systems, use the `.sh` equivalents in `scripts/`.
+
+## What lives here
+
+- `.cursor/rules/`: always-on governance rules.
+- `.cursor/agents/`: readonly specialist review agents.
+- `.cursor/skills/`: reusable engineering workflows and quality gates.
+- `scripts/`: child-repository linking, cloning, pulling, and workspace generation.
+- `repos.json`: child-repository catalog; empty until repositories are intentionally onboarded.
+- `docs/`: architecture, discovery, connector, and workflow guidance.
+
+## What does not live here
+
+- Application source code or tests.
+- Child-repository commits or pull requests.
+- Production credentials, tokens, PII, or PHI.
+- Invented routes, APIs, environment variables, infrastructure names, or test commands.
+
+## Agent execution loop
+
 1. Classify risk before editing. When uncertain, choose the higher tier.
-2. Read this parent `PROJECT_CONTEXT.md`, the ticket if supplied, and the child `PROJECT_CONTEXT.md`.
-3. Inspect the nearest existing implementation, tests, contracts, and configuration.
-4. Plan before Medium, High, or Critical work; Critical work stops for explicit human approval.
+2. Read parent `PROJECT_CONTEXT.md`, the ticket if supplied, and the child `PROJECT_CONTEXT.md`.
+3. Inspect the nearest implementation, tests, contracts, and configuration.
+4. Plan before Medium, High, or Critical work. Critical work stops for explicit human approval.
 5. Implement the smallest reversible change in the child repository.
-6. Verify with the narrowest meaningful check first and report honestly.
+6. Verify with the narrowest meaningful check and report honestly.
 7. Invoke specialist reviewers according to risk.
 8. Prepare a PR in the child repository. Never commit application code to this parent.
 
-Structured prompt template
+## Prompt template
 
 ```text
 Goal:
@@ -49,18 +69,20 @@ Acceptance criteria:
 Verification: commands or checks expected
 ```
 
-Worked examples
+## Risk examples
 
-Low risk — docs:
+Low-risk documentation change:
+
 ```text
-Goal: Correct the onboarding wording in repos/<child-name>/docs.
+Goal: Correct onboarding wording in repos/<child-name>/docs.
 Context: Read parent and child PROJECT_CONTEXT files.
 Constraints: Documentation only; no runtime or dependency changes.
-Acceptance criteria: Existing links remain valid and the diff is limited to docs.
-Verification: Inspect diff and run any documented link check.
+Acceptance criteria: Links remain valid and the diff is limited to docs.
+Verification: Inspect the diff and run any documented link check.
 ```
 
-Medium risk — typical behavior change:
+Medium-risk behavior change:
+
 ```text
 Goal: Add the requested behavior to repos/<child-name>.
 Context: Fetch ticket <ticket-id>; inspect the nearest implementation and tests.
@@ -69,40 +91,36 @@ Acceptance criteria: <criteria from ticket>
 Verification: Run the narrowest relevant test, then the documented suite.
 ```
 
-High risk — auth, privacy, or infrastructure:
+High-risk auth, privacy, or infrastructure change:
+
 ```text
 Goal: Propose a change affecting <auth/PII/infra path> in repos/<child-name>.
 Context: Read parent and child PROJECT_CONTEXT; inspect actual configuration and deployment patterns.
-Constraints: Synthetic data only; no production changes; explicit approval required for Critical work.
+Constraints: Synthetic data only; no production changes; explicit approval for Critical work.
 Acceptance criteria: <criteria from ticket>
 Verification: Security/privacy review, tests, rollback evidence, and honest unavailable checks.
 ```
 
-Child dependency order
+## Child dependency order
+
 - Register catalog metadata first.
 - Link or clone prerequisite/core repositories before downstream repositories.
-- Read dependency documentation and package version constraints from the actual child repos.
+- Read dependency documentation and package version constraints from actual child repositories.
 - Record cross-repository order in the PR body; do not guess package names or versions.
 
-Iron rules
-1. Application PRs go to child repos; parent PRs contain only governance, skills, docs, scripts, and catalog changes.
-2. Domain skills in sibling repos are consumed through adapters and never forked into this parent.
-3. Use synthetic/fake data only in prompts, tests, fixtures, and docs.
+## Iron rules
+
+1. Application PRs go to child repositories; parent PRs contain only platform assets.
+2. Sibling domain skills are consumed through adapters and never forked into this parent.
+3. Use synthetic data only in prompts, tests, fixtures, and docs.
 4. Critical paths require human approval; the agent stops before editing.
 5. Never commit secrets; rotate immediately if exposed.
 6. Never claim tests passed unless they ran.
-7. Always use full child paths such as `repos/<name>/...` in a multi-root workspace.
+7. Use full child paths such as `repos/<name>/...` in a multi-root workspace.
 
-Next steps
-- Edit `repos.json` to register child repositories and their roles.
-- Fill `.cursor/mcp.json.example` with connector info (DO NOT commit secrets).
+## No child repositories yet
 
-If you currently have no child repositories
-- This parent repo is ready to govern child repos when they exist. To get started later:
-	1. Create or obtain a child repo (your application code) and either clone it under `repos/` or link it with `scripts/link-existing.ps1`.
-	2. Add the child entry to `repos.json` or use `repos.example.json` as a template.
-	3. Run `scripts/generate-workspace.ps1` to include the child repo in the VS Code multi-root workspace.
+This parent is ready to govern child repositories when they exist. Add entries to `repos.json` using `repos.example.json` as a schema reference, then run the linking and workspace-generation steps above. Discovery-dependent rules and domain skills are added only after a child repository is intentionally onboarded.
 
-Want a demo child repo?
-- If you'd like, I can scaffold a minimal `repos/sample-app` to demonstrate the end-to-end flow (link → generate workspace → run a sample agent prompt).
+See `docs/guides/story-to-pr-guide.md` for the complete story-to-PR workflow.
 
