@@ -32,6 +32,10 @@ The committed `parent.code-workspace` is parent-only. The generated `generated-w
 
 For POSIX systems, use the `.sh` equivalents in `scripts/`.
 
+## GitHub MCP setup
+
+The repository includes `.cursor/mcp.json.example` for GitHub's remote MCP server. Set `GITHUB_PERSONAL_ACCESS_TOKEN` in your user environment, copy the example to `.cursor/mcp.json`, and restart Cursor. Use the GitHub connector to discover repositories and confirm metadata; then add approved entries to `repos.json` and clone them with the repository scripts. Never commit the token or `.cursor/mcp.json`.
+
 ## What lives here
 
 - `.cursor/rules/`: always-on governance rules.
