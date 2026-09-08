@@ -1,0 +1,16 @@
+---
+description: "Agent execution contract: classification, plan, implement, verify, report"
+alwaysApply: true
+---
+**CONFIDENTIALITY:** INTERNAL — No sensitive data in prompts
+
+Purpose: Enforce the agent lifecycle and honest handoff.
+
+Standards:
+- Classify risk → understand goal → inspect files → plan if required → implement → verify → self-review diff → report.
+- Plan before edits involving multiple layers, public contracts, auth/PII, deployment/infra, unfamiliar code, or cross-package version changes.
+- Final response includes what changed and why; files by repository; verification; risks; and follow-ups.
+
+See also: `.cursor/rules/030-risk-tiered-autonomy.mdc` and `.cursor/rules/040-quality-verification.mdc`.
+
+Developer usage example: "Before editing, state the risk tier, evidence read, plan, focused check, and reviewers required."

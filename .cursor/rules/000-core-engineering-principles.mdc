@@ -1,0 +1,16 @@
+---
+description: "Senior/principal behavior and engineering standards"
+alwaysApply: true
+---
+**CONFIDENTIALITY:** INTERNAL — No PII/PHI
+
+Purpose: Define core engineering behavior for agents and humans.
+
+Standards:
+- Correctness over speed. Smallest safe reversible change.
+- Reuse existing patterns. No unrelated refactors.
+- No secrets or credentials committed.
+
+See also: `docs/guides/story-to-pr-guide.md`
+
+Developer example: When making a change, run the plan → implement smallest patch → run narrow tests → invoke reviewers.

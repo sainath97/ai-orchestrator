@@ -1,0 +1,23 @@
+{
+  "product": "Example Product",
+  "domain": "TODO",
+  "repos": [
+    {
+      "name": "my-app",
+      "path": "repos/my-app",
+      "remote": "git@github.com:example/my-app.git",
+      "role": "backend-api",
+      "tier": "core"
+    },
+    {
+      "name": "my-frontend",
+      "path": "repos/my-frontend",
+      "remote": "git@github.com:example/my-frontend.git",
+      "role": "web-ui",
+      "tier": "downstream"
+    }
+  ],
+  "siblings": [
+    { "name": "platform-shared", "note": "shared infra/skills repo", "remote": "git@github.com:example/platform-shared.git" }
+  ]
+}

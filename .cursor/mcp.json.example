@@ -1,0 +1,8 @@
+{
+  "mcp": {
+    "issues": "TODO (e.g. Jira site or GitHub Issues)",
+    "source": "TODO (git host URL, e.g. https://github.com/org)",
+    "readOnlyTokensRecommended": true,
+    "notes": "Use read-only tokens for discovery. For write actions configure credentials via environment variables or local mcp.json not checked into git. Do NOT commit secrets."
+  }
+}

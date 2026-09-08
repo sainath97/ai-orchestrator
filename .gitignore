@@ -1,0 +1,11 @@
+# Parent control-plane ignores
+repos/*
+!repos/README.md
+!repos/.gitkeep
+.cursor/mcp.json
+.cursor/mcp.local.json
+.env
+bin/
+obj/
+node_modules/
+generated_workspace.code-workspace

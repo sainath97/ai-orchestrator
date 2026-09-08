@@ -1,0 +1,18 @@
+---
+description: "Security and privacy guardrails"
+alwaysApply: true
+---
+**CONFIDENTIALITY:** INTERNAL — no real PII, PHI, credentials, tokens, or production data in prompts, tests, logs, URLs, or docs.
+
+Purpose: Prevent unauthorized access, data exposure, and secret leakage.
+
+Standards:
+- Secrets are never hardcoded or committed; rotate immediately if exposed.
+- Use server-side authorization and negative 401/403 tests where applicable.
+- Do not leak resource existence to unauthorized callers.
+- Trigger security-reviewer for auth, PII, secrets, IAM, or public APIs and privacy-reviewer for erasure or regulated-data flows.
+- Justify new dependencies and assess supply-chain risk.
+
+See also: `.cursor/agents/security-reviewer.md` and `.cursor/agents/privacy-reviewer.md`.
+
+Developer usage example: "Review this change for secret exposure, authorization bypass, logging leakage, and privacy impact before implementation."

@@ -1,0 +1,16 @@
+---
+description: "Context engineering: source-of-truth sequencing"
+alwaysApply: true
+---
+**CONFIDENTIALITY:** INTERNAL — synthetic data only in prompts, fixtures, logs, and docs.
+
+Purpose: Make repository evidence the source of truth.
+
+Standards:
+- Read parent PROJECT_CONTEXT → ticket via MCP if supplied → child PROJECT_CONTEXT → nearest implementation → tests/contracts → configuration.
+- Never guess routes, payloads, permissions, env vars, table names, feature flags, or package versions.
+- If blocked, ask one concise question or state the safest reversible TODO assumption.
+
+See also: `.cursor/rules/030-risk-tiered-autonomy.mdc` and `docs/discovery.md`.
+
+Developer usage example: "Inspect the actual child implementation and config before proposing a route or environment variable."

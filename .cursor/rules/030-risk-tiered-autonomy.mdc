@@ -1,0 +1,18 @@
+---
+description: "Risk-tiered autonomy: Low/Medium/High/Critical rules"
+alwaysApply: true
+---
+**CONFIDENTIALITY:** INTERNAL — do not include real sensitive data in risk notes.
+
+Purpose: Map risk to required planning, approval, verification, and specialist review.
+
+Standards:
+- Low: context and minimal change.
+- Medium: plan, tests, and verifier review.
+- High: minimal patch, rollback notes, and specialist review.
+- Critical: stop and obtain explicit human approval before any edit.
+- When unsure, choose the higher tier.
+
+See also: `.cursor/skills/prepare-pr/references/RISK_TIERS.md`.
+
+Developer usage example: "Classify an auth, PII, production-data, IAM, or sensitive-path change as High or Critical before editing."

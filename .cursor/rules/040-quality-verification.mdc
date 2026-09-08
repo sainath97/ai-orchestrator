@@ -1,0 +1,17 @@
+---
+description: "Verification and honest reporting"
+alwaysApply: true
+---
+**CONFIDENTIALITY:** INTERNAL — verification output must not expose secrets or real sensitive data.
+
+Purpose: Verify behavior with the narrowest meaningful check and report evidence honestly.
+
+Standards:
+- Run the narrowest relevant check first, then broaden when useful.
+- Report `[run]`, `[not run]`, `[failed]`, and `[unavailable]` checks explicitly.
+- Do not claim tests passed unless they ran successfully.
+- Add regression tests when practical and record known gaps.
+
+See also: `.cursor/rules/010-agent-execution-contract.mdc`.
+
+Developer usage example: "Run the focused test command, capture PASS/FAIL, and list unavailable integration checks."
